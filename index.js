@@ -3,8 +3,9 @@ const bodyParser = require('body-parser');
 const app = express();
 const winston = require("winston");
 const bcrypt = require('bcrypt')
-const {FEP} = require('./models')
+const { users } = require('./models')
 const path = require('path');
+
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -25,9 +26,42 @@ const logger = winston.createLogger({
   });
 
 
+app.get('/register', (req, res) => {
+    res.render('register')
+})
 
+app.post('/register', async (req, res) => {
+    const { username, email, password, passwordCheck } = req.body;
+    // const existingUser = await users.findOne({ where: { userName } });
+    // const existingEmail = await users.findOne({ where: { email } });
 
+    // if (!username || !email || password || passwordCheck){
+    //     return res.json({error: 'Username, Email & Password are required.'})
+    // }
 
+    // if (existingUser) {
+    //     return res.json({error: 'Username is already in use.'
+    //     });
+    // }
+
+    // if (existingEmail) {
+    //     return res.json({error: 'Email is already in use.'
+    //     });
+    // }
+    
+    if (password !== passwordCheck) {
+        return res.send('Passwords must match.');
+    }
+
+    users.create({
+        username,
+        email,
+        password
+    })
+        .then(() => {
+            res.render('register');
+        })
+})
 
 
 
