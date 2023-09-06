@@ -21,7 +21,18 @@ const logger = winston.createLogger({
       new winston.transports.File({ filename: 'combined.log' }),
     ],
   });
+//get endpoint for rendering password recovery page
+  app.get('/password-recovery', (req, res) => {
+    res.render('password_recovery'); // Render the EJS template here
+  });
 
+  app.post('/password-recovery', (req, res) => {
+    //where bcrypt pass recov logic goes
+  
+    //  recoveryMessage to display
+    const recoveryMessage = 'Password recovery instructions sent to your email.';
+    res.render('password_recovery', { recoveryMessage });
+  });
 
 
 
