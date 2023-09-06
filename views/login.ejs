@@ -6,12 +6,21 @@
     <title>Document</title>
 </head>
 <body>
-    <form class="container" method="post" action="login" >
-<input type="text" name="username" id="username">
-<input type="password" name="password" id="password" minlength="8" maxlength="15">
-<button type="submit" onclick="" ></button>
-<p class="account">Need to create an account?. <a href="
 
+    <form method="post" action="/" >
+    <div class="form">
+        <legend> Sign in </legend>
+        <% { %>
+            <div class="username">
+            Email <input type="username" name="username" value="" />></div>
+            <div class="password">
+            Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
+        <% } %>
+        <button id="submit" onclick="">Sign in</button>
+        <p class="account">Need to create an account?. <a href="">Register</a></p>
+    </div>
+    
+    </form>
 
 
 

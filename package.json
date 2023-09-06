@@ -24,6 +24,8 @@
     "sqlite3": "^5.1.6",
     "winston": "^3.10.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "sequelize-cli": "^6.6.1"
+  },
   "description": ""
 }
