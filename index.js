@@ -29,6 +29,14 @@ const logger = winston.createLogger({
     res.render('password_recovery'); // Render the EJS template here
   });
 
+  app.get('/login'  , (req,res) => {
+    res.render('login')
+  })
+  
+  app.post('/login', async (req, res) => {
+    const { username, password, passwordCheck } = req.body;})
+
+
   app.post('/password-recovery', (req, res) => {
     //where bcrypt pass recov logic goes
   
