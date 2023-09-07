@@ -24,59 +24,105 @@ app.use(express.json())
 
 
 const logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.json(),
-    defaultMeta: { service: 'user-service' },
-    transports: [
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
 
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      new winston.transports.File({ filename: 'combined.log' }),
-    ],
-  });
-  // Function to generate a secure random reset token
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+
+app.get('/', (req, res) => {
+  res.render('login')
+})
+
+app.get('/register', (req, res) => {
+  res.render('register')
+})
+
+app.post('/register', async (req, res) => {
+  const { username, email, password, passwordCheck } = req.body;
+
+  // Check if passwords match
+  if (password !== passwordCheck) {
+    return res.send('Passwords do not match.');
+  }
+  //  if (existingUser) {
+  //        return res.json({error: 'Username is already in use.'
+  //        });
+  //     }
+
+  //    if (existingEmail) {
+  //        return res.json({error: 'Email is already in use.'
+  //        });
+  //     }
+  try {
+    // Generate a salt and hash the password
+    const saltRounds = 10; // You can adjust the number of salt rounds for more security
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    // Create a new user with the hashed password
+    const newUser = await users.create({
+      username,
+      email,
+      password: hashedPassword, // Store the hashed password in the database
+    });
+    return res.redirect('login');
+
+  } catch (error) {
+    // Handle any errors that occur during registration
+    console.error(error);
+    res.status(500).send('Registration failed. Please try again later.');
+  }
+});
+
+
+app.get('/login', (req, res) => {
+  res.render('login')
+})
+
+app.post('/login', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    // Retrieve the user from the database using the username
+    const user = await users.findOne({ where: { username } });
+
+    if (!user) {
+      return res.send('Invalid username or password.');
+    }
+
+    // Compare the provided password with the hashed password stored in the database
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (passwordMatch) {
+      // Passwords match, user is authenticated
+      //  set a session or token for authentication here
+      return res.render('homepage');
+    } else {
+      return res.send('Invalid username or password.');
+    }
+  } catch (error) {
+    // Handle any errors that occur during login
+    console.error(error);
+    res.status(500).send('Login failed. Please try again later.');
+  }
+});
+
+
+// Function to generate a secure random reset token
 function generateResetToken() {
   // Generate a random token with 32 bytes (256 bits) length
   return crypto.randomBytes(32).toString('hex');
 }
- 
-app.get('/password-recovery', (req, res) => {
-    const recoveryMessage = null; 
-    res.render('password_recovery', { recoveryMessage });
-  });
 
-  
-  app.get('/login'  , (req,res) => {
-    res.render('login')
-  })
-  
-  app.post('/login', async (req, res) => {
-    const { username, password } = req.body;
-    
-    try {
-      // Retrieve the user from the database using the username
-      const user = await users.findOne({ where: { username } });
-      
-      if (!user) {
-        return res.send('Invalid username or password.');
-      }
-      
-      // Compare the provided password with the hashed password stored in the database
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      
-      if (passwordMatch) {
-        // Passwords match, user is authenticated
-        //  set a session or token for authentication here
-        return res.render('homepage'); 
-      } else {
-        return res.send('Invalid username or password.');
-      }
-    } catch (error) {
-      // Handle any errors that occur during login
-      console.error(error);
-      res.status(500).send('Login failed. Please try again later.');
-    }
+app.get('/password-recovery', (req, res) => {
+  const recoveryMessage = null;
+  res.render('password_recovery', { recoveryMessage });
 });
-  
+
 app.post('/password-recovery', async (req, res) => {
   const { email } = req.body;
 
@@ -105,7 +151,7 @@ app.post('/password-recovery', async (req, res) => {
         from: 'sbarashang76@gmail.com',
         to: user.email, // User's email address
         subject: 'Password Reset Request',
-        text: `Click the following link to reset your password: http://placeholder.com/reset-password/${resetToken}`,
+        text: `Click the following link to reset your password: http://placeholder.com/update-password/${resetToken}`,
       }; // To do: make the above link send you to the localhost page
 
       // Send the email
@@ -129,54 +175,8 @@ app.post('/password-recovery', async (req, res) => {
   }
 });
 
-    
- 
-    
-
-
-app.get('/register', (req, res) => {
-    res.render('register')
-})
-
-
-app.post('/register', async (req, res) => {
-  const { username, email, password, passwordCheck } = req.body;
-
-  // Check if passwords match
-  if (password !== passwordCheck) {
-      return res.send('Passwords must match.');
-  }
-//  if (existingUser) {
-//        return res.json({error: 'Username is already in use.'
-//        });
-//     }
-
-//    if (existingEmail) {
-//        return res.json({error: 'Email is already in use.'
-//        });
-//     }
-  try {
-      // Generate a salt and hash the password
-      const saltRounds = 10; // You can adjust the number of salt rounds for more security
-      const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-      // Create a new user with the hashed password
-      const newUser = await users.create({
-          username,
-          email,
-          password: hashedPassword, // Store the hashed password in the database
-      });
-      return res.send('Register Success');
-      
-  } catch (error) {
-      // Handle any errors that occur during registration
-      console.error(error);
-      res.status(500).send('Registration failed. Please try again later.');
-  }
-});
-
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
-    console.log('Server is running on port 3000');
+  console.log('Server is running on port 3000');
 })
