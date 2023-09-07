@@ -1,0 +1,18 @@
+#boardgame{
+    width: 255px;
+    margin: auto;
+    grid-template-columns: repeat(3,auto);
+    display: grid;
+   
+
+}
+
+.square{
+    width: 100px;
+    height: 100px;
+    border: 2px solid;
+    
+   
+
+}
+
