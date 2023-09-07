@@ -175,6 +175,38 @@ app.post('/password-recovery', async (req, res) => {
   }
 });
 
+
+app.get('/update-password', (req, res) => {
+  res.render('new_password')
+})
+
+app.put('/update-password', async (req, res) => {
+  const { email, password, passwordCheck } = req.body
+
+  if (password !== passwordCheck) {
+    return res.send('Passwords do not match.')
+  }
+
+  try {
+    const user = users.findOne({ where: { email: email } })
+
+    if (user) {
+      user.password = password
+
+      await user.save()
+
+      res.redirect('/login')
+    } else {
+      res.send(`No user found with email ${email}`)
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Could not reset password.');
+  }
+
+})
+
+
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
