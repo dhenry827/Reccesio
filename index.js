@@ -24,24 +24,61 @@ const logger = winston.createLogger({
       new winston.transports.File({ filename: 'combined.log' }),
     ],
   });
-//get endpoint for rendering password recovery page
   app.get('/password-recovery', (req, res) => {
-    res.render('password_recovery'); // Render the EJS template here
+    const recoveryMessage = null; 
+    res.render('password_recovery', { recoveryMessage });
   });
+
+
 
   app.get('/login'  , (req,res) => {
     res.render('login')
   })
   
   app.post('/login', async (req, res) => {
-    const { username, password, passwordCheck } = req.body;})
+    const { username, password } = req.body;
 
+    try {
+        // Retrieve the user from the database using the username
+        const user = await users.findOne({ where: { username } });
 
-  app.post('/password-recovery', (req, res) => {
-    //where bcrypt pass recov logic goes
+        if (!user) {
+            return res.send('Invalid username or password.');
+        }
+
+        // Compare the provided password with the hashed password stored in the database
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (passwordMatch) {
+            // Passwords match, user is authenticated
+            //  set a session or token for authentication here
+            return res.send('Login Success'); 
+        } else {
+            return res.send('Invalid username or password.');
+        }
+    } catch (error) {
+        // Handle any errors that occur during login
+        console.error(error);
+        res.status(500).send('Login failed. Please try again later.');
+    }
+});
   
-    //  recoveryMessage to display
-    const recoveryMessage = 'Password recovery instructions sent to your email.';
+
+    
+ app.post('/password-recovery', async (req, res) => {
+    const { email } = req.body;
+  
+    // ... (password recovery logic)  
+  
+    // Determine the value of recoveryMessage based on the outcome of the recovery process
+    let recoveryMessage = null;
+  
+    if (!user) {
+      recoveryMessage = 'No user with this email exists.';
+    } else {
+      recoveryMessage = 'Password recovery instructions sent to your email.';
+    }
+  
     res.render('password_recovery', { recoveryMessage });
   });
 
@@ -49,40 +86,42 @@ app.get('/register', (req, res) => {
     res.render('register')
 })
 
+
 app.post('/register', async (req, res) => {
-    const { username, email, password, passwordCheck } = req.body;
-    // const existingUser = await users.findOne({ where: { userName } });
-    // const existingEmail = await users.findOne({ where: { email } });
+  const { username, email, password, passwordCheck } = req.body;
 
-    // if (!username || !email || password || passwordCheck){
-    //     return res.json({error: 'Username, Email & Password are required.'})
-    // }
+  // Check if passwords match
+  if (password !== passwordCheck) {
+      return res.send('Passwords must match.');
+  }
+//  if (existingUser) {
+//        return res.json({error: 'Username is already in use.'
+//        });
+//     }
 
-    // if (existingUser) {
-    //     return res.json({error: 'Username is already in use.'
-    //     });
-    // }
+//    if (existingEmail) {
+//        return res.json({error: 'Email is already in use.'
+//        });
+//     }
+  try {
+      // Generate a salt and hash the password
+      const saltRounds = 10; // You can adjust the number of salt rounds for more security
+      const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-    // if (existingEmail) {
-    //     return res.json({error: 'Email is already in use.'
-    //     });
-    // }
-    
-    if (password !== passwordCheck) {
-        return res.send('Passwords must match.');
-    }
-
-    users.create({
-        username,
-        email,
-        password
-    })
-        .then(() => {
-            res.render('register');
-        })
-})
-
-
+      // Create a new user with the hashed password
+      const newUser = await users.create({
+          username,
+          email,
+          password: hashedPassword, // Store the hashed password in the database
+      });
+      return res.send('Register Success');
+      
+  } catch (error) {
+      // Handle any errors that occur during registration
+      console.error(error);
+      res.status(500).send('Registration failed. Please try again later.');
+  }
+});
 
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
