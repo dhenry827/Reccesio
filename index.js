@@ -206,7 +206,26 @@ app.put('/update-password', async (req, res) => {
 
 })
 
+app.get('/delete-account', (req, res) => {
+  res.render('deleteUser')
+})
+app.delete('/delete-account/:username', async (req, res) => {
+  const { username } = req.params;
+  const { email, password, passwordCheck } = req.body
 
+  let deleteUser = await users.findOne({where: { username } });
+
+  try{
+    
+  await deleteUser.destroy
+
+  } catch(error){
+    console.error(error);
+    res.status(500).send(`Could not delete user ${username}.`);
+  }
+
+
+})
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
