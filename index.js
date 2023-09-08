@@ -44,20 +44,32 @@ app.get('/register', (req, res) => {
 
 app.post('/register', async (req, res) => {
   const { username, email, password, passwordCheck } = req.body;
-
+  const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
+  const errors = [];
   // Check if passwords match
   if (password !== passwordCheck) {
     return res.send('Passwords do not match.');
   }
-  //  if (existingUser) {
-  //        return res.json({error: 'Username is already in use.'
-  //        });
-  //     }
-
-  //    if (existingEmail) {
-  //        return res.json({error: 'Email is already in use.'
-  //        });
-  //     }
+  // Check if a user with the same username already exists
+  const existingUser = await users.findOne({ where: { username } });
+   if (existingUser) {
+         return res.json({error: 'Username is already in use.'
+         });
+      }
+// Check if a user with the same email already exists
+const existingEmail = await users.findOne({ where: { email } });
+     if (existingEmail) {
+         return res.json({error: 'Email is already in use.'
+         });
+      } // Check if username contains a URL
+      if (urlRegex.test(username)) {
+        return res.status(400).send('Username should not contain a URL');
+       
+      }
+      // Check if password contains a URL
+  if (urlRegex.test(password)) {
+    return res.status(400).send('Password should not contain a URL');
+  }
   try {
     // Generate a salt and hash the password
     const saltRounds = 10; // You can adjust the number of salt rounds for more security
@@ -133,7 +145,7 @@ app.post('/password-recovery', async (req, res) => {
     // Determine the value of recoveryMessage based on the outcome of the recovery process
     let recoveryMessage = null;
 
-    if (!user) {
+    if (!email) {
       recoveryMessage = 'No user with this email exists.';
     } else {
       // Generate a unique token for password reset
@@ -151,8 +163,8 @@ app.post('/password-recovery', async (req, res) => {
         from: 'sbarashang76@gmail.com',
         to: user.email, // User's email address
         subject: 'Password Reset Request',
-        text: `Click the following link to reset your password: http://placeholder.com/update-password/${resetToken}`,
-      }; // To do: make the above link send you to the localhost page
+        text: `Click the following link to reset your password: https://recess-io.onrender.com`,
+      }; // To do: make the above link send you to the updatepassword (put)  page instead of the login page
 
       // Send the email
       transporter.sendMail(mailOptions, (error, info) => {
@@ -171,7 +183,8 @@ app.post('/password-recovery', async (req, res) => {
   } catch (error) {
     // Handle any errors that occur during password recovery
     console.error(error);
-    res.status(500).send('Password recovery failed. Please try again later.');
+    const recoveryMessage = 'A user with this email address does not exist.';
+    res.render('password_recovery', { recoveryMessage });
   }
 });
 
