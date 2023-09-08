@@ -8,6 +8,7 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const path = require('path');
 
+
 const transporter = nodemailer.createTransport({
   service: 'Gmail',
   auth: {
@@ -219,21 +220,24 @@ app.put('/update-password', async (req, res) => {
 
 })
 
-app.get('/delete-account/', (req, res) => {
+app.get('/delete-account', (req, res) => {
   res.render('deleteUser')
 })
 
-app.delete('/delete-account/:username', async (req, res) => {
-  console.log('23', req.params.username)
+app.delete('/delete-account', async (req, res) => {
+
+  console.log('23', req.body.username)
   
   try {
-    const usernameToDelete = req.params.username;
+    const usernameToDelete = req.body.username;
+    console.log("232",usernameToDelete)
     const { password, passwordCheck } = req.body
     
       if(password !== passwordCheck){
       return res.send('Passwords do not match.')
       }
     const user = await users.findOne({ where: { username: usernameToDelete } });
+    console.log("239", user)
     if (!user) {
       return res.status(404).json({ message: 'User not found.' });
     }
