@@ -206,26 +206,41 @@ app.put('/update-password', async (req, res) => {
 
 })
 
-app.get('/delete-account', (req, res) => {
+app.get('/delete-account/', (req, res) => {
   res.render('deleteUser')
 })
+
 app.delete('/delete-account/:username', async (req, res) => {
-  const { username } = req.params;
-  const { email, password, passwordCheck } = req.body
-
-  let deleteUser = await users.findOne({where: { username } });
-
-  try{
+  console.log('23', req.params.username)
+  
+  try {
+    const usernameToDelete = req.params.username;
+    const { password, passwordCheck } = req.body
     
-  await deleteUser.destroy
-
-  } catch(error){
+      if(password !== passwordCheck){
+      return res.send('Passwords do not match.')
+      }
+    const user = await users.findOne({ where: { username: usernameToDelete } });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+    if (!passwordMatch) {
+      return res.send('Invalid password.')
+    }
+    const deletedUser = await users.destroy({ where: { username: usernameToDelete } });
+    
+    if (deletedUser) {
+      return res.status(200).json({ message: 'User deleted successfully' });
+    } else {
+      return res.status(404).json({ message: 'User not found.' });
+    }
+  } catch (error) {
     console.error(error);
-    res.status(500).send(`Could not delete user ${username}.`);
+    return res.status(500).json({ message: 'Could not delete user' });
   }
+});
 
-
-})
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
