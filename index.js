@@ -35,7 +35,7 @@ const logger = winston.createLogger({
 });
 
 app.get('/', (req, res) => {
-  res.render('login')
+  res.render('login', {errorFound: ''})
 })
 
 app.get('/register', (req, res) => {
@@ -92,18 +92,20 @@ const existingEmail = await users.findOne({ where: { email } });
 
 
 app.get('/login', (req, res) => {
-  res.render('login')
+  res.render('login', {errorFound: ''})
 })
 
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  // let errorFound = null;
 
   try {
     // Retrieve the user from the database using the username
     const user = await users.findOne({ where: { username } });
 
     if (!user) {
-      return res.send('Invalid username or password.');
+      errorFound = 'Invalid username or password.';
+      return res.render('login', { errorFound });
     }
 
     // Compare the provided password with the hashed password stored in the database
@@ -114,7 +116,8 @@ app.post('/login', async (req, res) => {
       //  set a session or token for authentication here
       return res.render('homepage');
     } else {
-      return res.send('Invalid username or password.');
+      errorFound = 'Invalid username or password.';
+      return res.render('login', { errorFound });
     }
   } catch (error) {
     // Handle any errors that occur during login
