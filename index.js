@@ -112,7 +112,7 @@ app.post('/login', async (req, res) => {
     if (passwordMatch) {
       // Passwords match, user is authenticated
       //  set a session or token for authentication here
-      return res.render('homepage');
+      return res.redirect('homepage');
     } else {
       return res.send('Invalid username or password.');
     }
