@@ -21,6 +21,15 @@
         <div class="form">
             <form method="post" action="/login">
             <legend> Login Here! </legend>
+            <% if (errorFound) { %>
+                <p class="error-message"><%= errorFound %></p>
+                <div class="username">
+                    Username <input type="username" name="username" value="" /></div>
+                    <div class="password">
+                    Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
+               
+                <button id="submit"type="submit">Sign in</button>
+            <%  } else { %>
             <% { %>
                 <div class="username">
                     Username <input type="username" name="username" value="" /></div>
@@ -30,7 +39,7 @@
                 <% } %>
                     <button id="submit" onclick="">Sign in</button>
                     <p class="account">Need to create an account? <a href="">Register</a></p>
-
+                    <% } %>
                     </form>
                 </div>
     

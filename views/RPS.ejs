@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/RockPS.css">
+    <title>Rock, Paper, Scissors Game</title>
+</head>
+<body>
+    <h1>Rock, Paper, Scissors Game</h1>
+    <form action="/RPS" method="POST">
+        <label for="choice">Choose: </label>
+        <select name="choice" id="choice">
+            <option value="Rock">Rock</option>
+            <option value="Paper">Paper</option>
+            <option value="Scissors">Scissors</option>
+        </select>
+        <button type="submit">Play</button>
+    </form>
+    <div>
+        <h2>Your Choice:</h2>
+        <img src="/RPS/<%= userChoice %>.jpeg" alt="<%= userChoice %>">
+    </div>
+    <div>
+        <h2>Computer's Choice:</h2>
+        <img src="/RPS/<%= computerChoice %>.jpeg" alt="<%= computerChoice %>">
+    </div>
+    <p><%= result %></p>
+</body>
+</html>
