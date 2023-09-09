@@ -226,7 +226,7 @@ app.put('/update-password', async (req, res) => {
 })
 
 
-app.listen(3007, () => {
+app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
   console.log('Server is running on port 3000');
