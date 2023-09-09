@@ -108,7 +108,7 @@ app.post('/login', async (req, res) => {
     const user = await users.findOne({ where: { username } });
 
     if (!user) {
-      errorFound = 'Invalid username or password.';
+      errorFound = 'User not found.';
       return res.render('login', { errorFound });
     }
 
@@ -120,7 +120,7 @@ app.post('/login', async (req, res) => {
       //  set a session or token for authentication here
       return res.redirect('homepage');
     } else {
-      errorFound = 'Invalid username or password.';
+      errorFound = 'Invalid Password.';
       return res.render('login', { errorFound });
     }
   } catch (error) {
@@ -227,7 +227,7 @@ app.put('/update-password', async (req, res) => {
 })
 
 app.get('/delete-account', (req, res) => {
-  res.render('deleteUser')
+  res.render('deleteUser', {errorFound: ''})
 })
 
 app.delete('/delete-account', async (req, res) => {
@@ -240,16 +240,19 @@ app.delete('/delete-account', async (req, res) => {
     const { password, passwordCheck } = req.body
     
       if(password !== passwordCheck){
-      return res.send('Passwords do not match.')
+      errorFound = 'Passwords do not match.';
+      return res.render('deleteUser', { errorFound });
       }
     const user = await users.findOne({ where: { username: usernameToDelete } });
     console.log("239", user)
     if (!user) {
-      return res.status(404).json({ message: 'User not found.' });
+      errorFound = 'User not found.';
+      return res.render('deleteUser', { errorFound });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.send('Invalid password.')
+      errorFound = 'Password is invalid .';
+      return res.render('deleteUser', { errorFound });
     }
     const deletedUser = await users.destroy({ where: { username: usernameToDelete } });
     
@@ -263,6 +266,45 @@ app.delete('/delete-account', async (req, res) => {
     return res.status(500).json({ message: 'Could not delete user' });
   }
 });
+
+//Rock Paper Scissors code:
+
+// Render RPS
+app.get('/RPS', (req, res) => {
+  res.render('RPS', { result: '', userChoice: '', computerChoice: '' });
+});
+
+app.post('/RPS', (req, res) => {
+  const userChoice = req.body.choice;
+  const computerChoice = generateComputerChoice();
+  const result = playGame(userChoice, computerChoice);
+  res.render('RPS', { result, userChoice, computerChoice  });
+});
+
+// Function to generate a random computer choice
+function generateComputerChoice() {
+  const choices = ['Rock', 'Paper', 'Scissors'];
+  const randomIndex = Math.floor(Math.random() * choices.length);
+  return choices[randomIndex];
+}
+function playGame(userChoice, computerChoice) {
+  const userWins =
+    (userChoice === 'Rock' && computerChoice === 'Scissors') ||
+    (userChoice === 'Paper' && computerChoice === 'Rock') ||
+    (userChoice === 'Scissors' && computerChoice === 'Paper');
+const computerWIns =
+(userChoice === 'Rock' && computerChoice === 'Paper') ||
+    (userChoice === 'Paper' && computerChoice === 'Scissors') ||
+    (userChoice === 'Scissors' && computerChoice === 'Rock');
+  if (userChoice === computerChoice) {
+    return 'It\'s a tie!';
+  } else if (userWins) {
+    return 'You win!';
+  } else if (computerWIns){
+    return 'Computer wins!';
+  }
+}
+
 
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
