@@ -39,36 +39,39 @@ app.get('/', (req, res) => {
 })
 
 app.get('/register', (req, res) => {
-  res.render('register')
+  res.render('register', {errorFound: ''})
 })
 
 app.post('/register', async (req, res) => {
   const { username, email, password, passwordCheck } = req.body;
   const urlRegex = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/i;
-  const errors = [];
+  
   // Check if passwords match
   if (password !== passwordCheck) {
-    return res.send('Passwords do not match.');
+    errorFound = 'passwords do not match.';
+    return res.render('register', { errorFound });
   }
   // Check if a user with the same username already exists
   const existingUser = await users.findOne({ where: { username } });
    if (existingUser) {
-         return res.json({error: 'Username is already in use.'
-         });
+    errorFound = 'Username is alreadly in use.';
+    return res.render('register', { errorFound });
       }
 // Check if a user with the same email already exists
 const existingEmail = await users.findOne({ where: { email } });
      if (existingEmail) {
-         return res.json({error: 'Email is already in use.'
-         });
+      errorFound = 'Email is alreadly in use.';
+      return res.render('register', { errorFound });
       } // Check if username contains a URL
       if (urlRegex.test(username)) {
-        return res.status(400).send('Username should not contain a URL');
+        errorFound = 'username should NOT contain a URL.';
+        return res.render('register', { errorFound });
        
       }
       // Check if password contains a URL
   if (urlRegex.test(password)) {
-    return res.status(400).send('Password should not contain a URL');
+    errorFound = 'password should NOT contain a URL.';
+    return res.render('register', { errorFound });
   }
   try {
     // Generate a salt and hash the password
@@ -223,7 +226,7 @@ app.put('/update-password', async (req, res) => {
 })
 
 
-app.listen(3000, () => {
+app.listen(3007, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true })
   console.log('Server is running on port 3000');
