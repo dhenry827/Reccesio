@@ -1,42 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/login.css">
+    </link>
+    <link rel="stylesheet" href="https://www.fontspace.com/chalktastic-font-f32933">
+
     <title>Document</title>
 </head>
+
 <body>
-<!-- changed form action from '/' to '/login' so that login would go through -->
-    <form method="post" action="/login" >
-    <div class="form">
-        <legend> Sign in </legend>
-        <% if (errorFound) { %>
-            <p class="error-message"><%= errorFound %></p>
-            <div class="username">
-                Username <input type="username" name="username" value="" /></div>
+    <!-- changed form action from '/' to '/login' so that login would go through -->
+    <div id="bodyCont">
+        
+        <img class=lisa src="/the-simpsons-lisa-simpson.gif" alt="Animated GIF" >  -->
+            <img class="blackboard" src="/346021.png" alt="blackboard">
+        </div id=container>
+        <div class="form">
+            <form method="post" action="/login">
+            <legend> Login Here! </legend>
+            <% if (errorFound) { %>
+                <p class="error-message"><%= errorFound %></p>
+                <div class="username">
+                    Username <input type="username" name="username" value="" /></div>
+                    <div class="password">
+                    Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
+               
+                <button id="submit"type="submit">Sign in</button>
+            <%  } else { %>
+            <% { %>
+                <div class="username">
+                
+                    Username <input type="username" name="username" value="" /></div>
                 <div class="password">
-                Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
-           
-            <button id="submit"type="submit">Sign in</button>
-        <%  } else { %>
-            <div class="username">
-            Username <input type="username" name="username" value="" /></div>
-            <div class="password">
-            Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
-       
-        <button id="submit"type="submit">Sign in</button>
-        <% } %>
-        <p class="account">Need to create an account?. <a href="">Register</a></p>
+                    Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br>
+                </div>
+                <% } %>
+                    <button id="submit" onclick="">Sign in</button>
+                    <p class="account">Need to create an account? <a href="">Register</a></p>
+                    <% } %>
+                    </form>
+                </div>
+    
     </div>
-    
-    </form>
-
-
-
-
-
-
-    </form>
-    
 </body>
+
 </html>
