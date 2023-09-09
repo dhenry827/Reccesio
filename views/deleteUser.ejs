@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete User</title>
+</head>
+<body>
+    <h1>Delete User</h1>
+    <form id="delete-form" action="/delete-account" method="POST">
+        <fieldset>
+            Username:<input type="text" name="username">
+            Password: <input type="password" name="password">
+            Re-enter Password: <input type="password" name="passwordCheck">
+            <input type="submit" value="Delete Account">
+        </fieldset>
+    </form>
+
+    <script>
+        document.getElementById("delete-form").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(event.target);
+
+            fetch("/delete-account", {
+                method: "DELETE",
+                body: JSON.stringify({
+                    username: formData.get("username"),
+                    password: formData.get("password"),
+                    passwordCheck: formData.get("passwordCheck"),
+                }),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    // Handle the response data here
+                    console.log(data);
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        });
+    </script>
+</body>
+</html>
