@@ -8,7 +8,7 @@
     </link>
     <link rel="stylesheet" href="https://www.fontspace.com/chalktastic-font-f32933">
 
-    <title>Document</title>
+    <title>Recess.io - Login</title>
 </head>
 
 <body>
@@ -24,17 +24,18 @@
             <% if (errorFound) { %>
                 <p class="error-message"><%= errorFound %></p>
                 <div class="username">
-                    Username <input type="username" name="username" value="" /></div>
+                    Username <input type="username" name="username"/></div>
                     <div class="password">
-                    Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br></div>
+                    Password <input type="password" minlength="8" maxlength="15" name="password"/><br><br></div>
                
                 <button id="submit"type="submit">Sign in</button>
             <%  } else { %>
             <% { %>
                 <div class="username">
-                    Username <input type="username" name="username" value="" /></div>
+                    Username <input type="username" name="username"/></div>
                 <div class="password">
-                    Password <input type="password" minlength="8" maxlength="15" name="password" value="" /><br><br>
+                    Password <input type="password" minlength="8" maxlength="15" name="password"/>
+                    <p class="password-recovery"><a href="http://localhost:3000/password-recovery">Forgot your password?</a></p>
                 </div>
                 <% } %>
                     <button id="submit" onclick="">Sign in</button>

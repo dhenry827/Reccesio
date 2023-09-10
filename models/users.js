@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     password: DataTypes.STRING,
     rps_high_score: DataTypes.INTEGER,
     tic_tac_toe_high_score: DataTypes.INTEGER,
-    hangman_high_score: DataTypes.INTEGER
+    hangman_high_score: DataTypes.INTEGER,
+    resetToken: DataTypes.INTEGER,
+    resetTokenExpires: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'users',

@@ -208,25 +208,32 @@ app.post('/password-recovery', async (req, res) => {
 
 
 app.get('/reset-password', (req, res) => {
-  res.render('new_password')
+  res.render('passwordReset', {errorFound: ''})
 })
 
 app.put('/reset-password', async (req, res) => {
-  const { email, password, passwordCheck } = req.body
-
-  if (password !== passwordCheck) {
-    return res.send('Passwords do not match.')
-  }
-
+  
   try {
+    const { email, password, passwordCheck } = req.body
+    
+    if (password !== passwordCheck) {
+      errorFound = 'Passwords do not match.'
+      return res.render('passwordReset', {errorFound: ''})
+    }
+
     const user = users.findOne({ where: { email: email } })
+    
+    if(!user){
+      errorFound = 'User not found.';
+      return res.render('passwordReset', { errorFound });
+    }
 
     if (user) {
       user.password = password
 
       await user.save()
 
-      res.redirect('/login')
+      res.redirect('login')
     } else {
       res.send(`No user found with email ${email}`)
     }
@@ -247,7 +254,7 @@ app.delete('/delete-account', async (req, res) => {
   
   try {
     const usernameToDelete = req.body.username;
-    console.log("232",usernameToDelete)
+    // console.log("232",usernameToDelete)
     const { password, passwordCheck } = req.body
     
       if(password !== passwordCheck){

@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-    <title>Recess.io - Homepage</title>
+    <title>Recess.io - Home</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="http://localhost:3000/homepage">Recess.io</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
@@ -36,13 +36,20 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#">About Us</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="http://localhost:3000/logout">Log out</a>
-                    </li>
-                </ul>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Account
+                        </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="http://localhost:3000/reset-password">Reset Password</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:3000/logout">Log Out</a></li>
+                        <li><a class="dropdown-item" href="http://localhost:3000/delete-account">Delete Account</a></li>
+                    </ul>
             </div>
         </div>
     </nav>
+
     <a href="http://localhost:3000/rps">Rock, Paper, Scissor</a>
     <a href="http://localhost:3000/tic-tac-toe">Tic-Tac-Toe</a>
     <a href="http://localhost:3000/logout">Log out</a>

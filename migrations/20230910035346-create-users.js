@@ -27,6 +27,12 @@ module.exports = {
       hangman_high_score: {
         type: Sequelize.INTEGER
       },
+      resetToken: {
+        type: Sequelize.INTEGER
+      },
+      resetTokenExpires: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
