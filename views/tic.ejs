@@ -15,7 +15,10 @@
 
     </div>
     <h2 id="winner"></h2>
-    <button onclick="reset_board()">RESET</button>
+    <!-- <button onclick="reset_board()">RESET</button> -->
+    <form action="/tic-tac-toe" method="post">
+      <input type="submit" value="RESET" onclick="reset_board()">
+    </form>
   </div>
   <script>
     const player = "O";
