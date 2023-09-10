@@ -3,10 +3,14 @@ const bodyParser = require('body-parser');
 const app = express();
 const winston = require("winston");
 const bcrypt = require('bcrypt')
-const { users } = require('./models')
+const { users, rps_scoreboard, tic_tac_toe_scoreboard, global_scoreboard } = require('./models')
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const path = require('path');
+//line belw is needed to create sessions to track logged in users
+const session = require('express-session');
+//line bellow is used to incorporate env's
+const dotenv = require('dotenv').config();
 
 
 const transporter = nodemailer.createTransport({
@@ -22,6 +26,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //Adds pathing for linkin ejs files to assets in public folder.
 app.use(express.static(path.join(__dirname, '/public')))
 app.use(express.json())
+app.use(session({
+  //line below references the key from .env
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+}));
 
 
 const logger = winston.createLogger({
@@ -117,7 +127,8 @@ app.post('/login', async (req, res) => {
 
     if (passwordMatch) {
       // Passwords match, user is authenticated
-      //  set a session or token for authentication here
+      //line below stores username in session.
+      req.session.username = username;
       return res.redirect('homepage');
     } else {
       errorFound = 'Invalid Password.';
@@ -196,11 +207,11 @@ app.post('/password-recovery', async (req, res) => {
 });
 
 
-app.get('/update-password', (req, res) => {
+app.get('/reset-password', (req, res) => {
   res.render('new_password')
 })
 
-app.put('/update-password', async (req, res) => {
+app.put('/reset-password', async (req, res) => {
   const { email, password, passwordCheck } = req.body
 
   if (password !== passwordCheck) {
@@ -267,12 +278,40 @@ app.delete('/delete-account', async (req, res) => {
   }
 });
 
+app.get('/homepage', (req, res) => {
+  if (req.session.username) {
+    const username = req.session.username;
+    res.render('homepage', { username });
+  } else {
+  res.redirect('login')
+}});
+
+app.get('/logout', (req, res) => {
+  // Destroy the user's session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+    } else {
+      // Redirect the user to the login page or any other appropriate page
+      res.redirect('/login');
+    }
+  });
+});
+
 //Rock Paper Scissors code:
 
 // Render RPS
 app.get('/RPS', (req, res) => {
-  res.render('RPS', { result: '', userChoice: '', computerChoice: '' });
-});
+  if (req.session.username) {
+    const username = req.session.username;
+
+    // You can now use the 'username' variable in this endpoint
+    // ...
+
+    res.render('RPS', { username, result: '', userChoice: '', computerChoice: '' });
+  } else {
+  res.redirect('login');
+}});
 
 app.post('/RPS', (req, res) => {
   const userChoice = req.body.choice;
@@ -299,14 +338,22 @@ const computerWIns =
   if (userChoice === computerChoice) {
     return 'It\'s a tie!';
   } else if (userWins) {
-    return 'You win!';
+    return userWins, 'You win!';
   } else if (computerWIns){
     return 'Computer wins!';
   }
 }
 
+app.get('/tic-tac-toe', (req, res) => {
+  if (req.session.username) {
+    const username = req.session.username;
+    res.render('tic', { username });
+  } else {
+    res.redirect('login')
+}})
+
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
-  // users.sync({ force: true })
+  // users.sync({ force: true }); rps_scoreboard.sync({ force: true }); tic_tac_toe_scoreboard.sync({ force: true }); global_scoreboard.sync({ force: true })
   console.log('Server is running on port 3000');
 })

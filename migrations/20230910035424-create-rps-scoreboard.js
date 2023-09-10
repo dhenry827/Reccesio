@@ -2,17 +2,17 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('global_scoreboards', {
+    await queryInterface.createTable('rps_scoreboards', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      score_game_1: {
-        type: Sequelize.INTEGER
+      user: {
+        type: Sequelize.STRING
       },
-      score_game_2: {
+      score: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -26,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('global_scoreboards');
+    await queryInterface.dropTable('rps_scoreboards');
   }
 };

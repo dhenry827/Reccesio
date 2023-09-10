@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class game_2_scoreboard extends Model {
+  class tic_tac_toe_scoreboard extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,12 +13,12 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-  game_2_scoreboard.init({
-    uername: DataTypes.STRING,
+  tic_tac_toe_scoreboard.init({
+    user: DataTypes.STRING,
     score: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'game_2_scoreboard',
+    modelName: 'tic_tac_toe_scoreboard',
   });
-  return game_2_scoreboard;
+  return tic_tac_toe_scoreboard;
 };
