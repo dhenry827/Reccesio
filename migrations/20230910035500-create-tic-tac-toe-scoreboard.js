@@ -2,14 +2,14 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('game_1_scoreboards', {
+    await queryInterface.createTable('tic_tac_toe_scoreboards', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      uername: {
+      user: {
         type: Sequelize.STRING
       },
       score: {
@@ -26,6 +26,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('game_1_scoreboards');
+    await queryInterface.dropTable('tic_tac_toe_scoreboards');
   }
 };

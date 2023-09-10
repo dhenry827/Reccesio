@@ -14,8 +14,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   global_scoreboard.init({
-    score_game_1: DataTypes.INTEGER,
-    score_game_2: DataTypes.INTEGER
+    rps_scores: DataTypes.INTEGER,
+    tic_tac_toe_scores: DataTypes.INTEGER,
+    hangman_scores: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'global_scoreboard',

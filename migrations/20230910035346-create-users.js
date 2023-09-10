@@ -2,17 +2,35 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('global_scoreboards', {
+    await queryInterface.createTable('users', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      score_game_1: {
+      username: {
+        type: Sequelize.STRING
+      },
+      email: {
+        type: Sequelize.STRING
+      },
+      password: {
+        type: Sequelize.STRING
+      },
+      rps_high_score: {
         type: Sequelize.INTEGER
       },
-      score_game_2: {
+      tic_tac_toe_high_score: {
+        type: Sequelize.INTEGER
+      },
+      hangman_high_score: {
+        type: Sequelize.INTEGER
+      },
+      resetToken: {
+        type: Sequelize.INTEGER
+      },
+      resetTokenExpires: {
         type: Sequelize.INTEGER
       },
       createdAt: {
@@ -26,6 +44,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('global_scoreboards');
+    await queryInterface.dropTable('users');
   }
 };

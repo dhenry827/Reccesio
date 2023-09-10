@@ -1,0 +1,10 @@
+
+#carouselExampleAutoplaying {
+    max-width: 50%; /* Set the maximum width to 50% of the parent container */
+    margin: 0 auto; /* Center the carousel horizontally */
+}
+
+.carousel-inner img {
+    width: 100%; /* Make the images responsive within the carousel */
+    height: auto;
+}

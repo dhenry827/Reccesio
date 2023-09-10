@@ -1,0 +1,84 @@
+html{
+    display: flex;
+    
+}
+
+#bodyCont {
+    display: flex;  
+    height: 100vh;
+    width: 100vw;  
+    justify-content: center;
+}
+
+
+.username{
+font-family: 'chalktastic', sans-serif ;
+font-size: 20px;
+color: aliceblue;
+}
+
+.password{
+    font-family: 'chalktastic', sans-serif ;
+    font: size 20px;
+    color: aliceblue;
+
+}
+legend{
+    font-family: 'chalktastic', sans-serif ;
+    font-size: 80px;
+    color: rgb(235, 196, 251);
+    
+    
+}
+
+
+#submit{
+    font-family: 'chalktastic', sans-serif ;
+    border-radius: 8px; 
+ 
+
+}
+
+body{
+     background-color: #88964b;
+    
+}
+
+.blackboard{
+    flex-flow: column;
+    align-self: center;
+    height: 600px;;
+    width:auto;
+    z-index: -1000;
+}
+
+.form{
+    
+    width: 300px;
+    margin: 0 auto;
+    padding: 30px;
+    
+    text-align: center;
+    z-index: 1000;
+    position: absolute;
+    display: flex;
+
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+
+}
+p{
+    font-family: 'chalktastic', sans-serif ;
+    color: aliceblue;
+}
+
+.lisa{
+    top: 50%;
+  left: 70%;
+  position: absolute;
+}
+input{
+    border-radius: 10px; 
+}
