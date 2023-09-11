@@ -181,7 +181,7 @@ app.post('/password-recovery', async (req, res) => {
         from: 'sbarashang76@gmail.com',
         to: user.email, // User's email address
         subject: 'Password Reset Request',
-        text: `Click the following link to reset your password: https://recess-io.onrender.com`,
+        text: `Click the following link to reset your password: https://recess-io.onrender.com/reset-password`,
       }; // To do: make the above link send you to the updatepassword (put)  page instead of the login page
 
       // Send the email
