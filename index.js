@@ -359,6 +359,14 @@ app.get('/tic-tac-toe', (req, res) => {
     res.redirect('login')
 }})
 
+app.get('/hangman', (req, res) => {
+  if (req.session.username) {
+    const username = req.session.username;
+    res.render('hangman', { username });
+  } else {
+    res.redirect('login');
+  }
+});
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true }); rps_scoreboard.sync({ force: true }); tic_tac_toe_scoreboard.sync({ force: true }); global_scoreboard.sync({ force: true })
