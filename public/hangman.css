@@ -7,8 +7,16 @@ body {
 }
 
 h1 {
+    font-family: 'Chalktastic', sans-serif;
     margin-top: 20px;
-    color: #333;
+    color: #fafafa;
+    font-size: 70px;
+}
+
+h2{
+    font-family: 'Chalktastic', sans-serif;
+    font-size: 20px;
+
 }
 
 .game-container {
@@ -16,13 +24,25 @@ h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+    background-color: #2c6627;
+    width: 90vw;
+    max-width: 34em;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    padding: 3em;
+    border-radius: 0.6em;
+    border-width: 10px;
+    border: 6px solid #c88521;
 }
 
 
 .word-to-guess {
     font-size: 24px;
     margin-top: 20px;
-    color: #333;
+    color: #ffffff;
+    font-family: 'Chalktastic', sans-serif;
 }
 
 .keyboard {
@@ -30,27 +50,38 @@ h1 {
     grid-template-columns: repeat(8, 1fr);
     grid-gap: 5px;
     margin-top: 20px;
+    
 }
 
 .keyboard button {
-    width: 40px;
+    width: 60px;
     height: 40px;
     font-size: 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #d3e2f2;
+    color: #080808;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-family: 'Chalktastic', sans-serif;
 }
 
 .keyboard button:hover {
-    background-color: #0056b3;
+    background-color: #ecf0f6;
 }
+
+.keyboard-button.disabled {
+    background-color: #ccc;
+    color: #ec2121;
+    cursor: not-allowed;
+  }
+  .keyboard-button:active {
+    background-color: #2070a0;}
 
 .game-result {
     font-size: 24px;
+    font-family: 'Chalktastic', sans-serif;
     margin-top: 20px;
-    color: #333;
+    color: #ffffff;
 }
 
 img{
