@@ -1,0 +1,23 @@
+Project Name: Recess.io is a webpage designed to Bring people back to simple nostalgia by reminding people of the simple games they used to play in school. We decided to give the website a nostalgic touch by using a theme of a popular TV show, "The Simpsons." We also de included simple games like Tic-Tac-Toe, Hangman, and Rock-Paper-Scissors.
+
+Technology Used
+
+For this project, our primary focus was on the backend. We incorporated several packages to enhance functionality, including:
+
+- express
+- body-parser
+- winston
+- bcrypt
+- crypto
+- path
+- nodemailer
+- express-session
+- dotenv
+
+we used render to deploy our website.
+
+Team Members:
+
+- Dujuanye Henry
+- Sababu Barashango
+- Keth Saint Louis

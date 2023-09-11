@@ -14,7 +14,7 @@ const dotenv = require('dotenv').config();
 
 
 const transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  //service: 'Gmail',
   auth: {
     user: 'sbarashang76@gmail.com', // Your Gmail email address
     pass: 'dcrodlsynxbtyfks', // Your Gmail password or an application-specific password
@@ -181,7 +181,7 @@ app.post('/password-recovery', async (req, res) => {
         from: 'sbarashang76@gmail.com',
         to: user.email, // User's email address
         subject: 'Password Reset Request',
-        text: `Click the following link to reset your password: https://recess-io.onrender.com`,
+        text: `Click the following link to reset your password: https://recess-io.onrender.com/reset-password`,
       }; // To do: make the above link send you to the updatepassword (put)  page instead of the login page
 
       // Send the email
@@ -359,6 +359,14 @@ app.get('/tic-tac-toe', (req, res) => {
     res.redirect('login')
 }})
 
+app.get('/hangman', (req, res) => {
+  if (req.session.username) {
+    const username = req.session.username;
+    res.render('hangman', { username });
+  } else {
+    res.redirect('login');
+  }
+});
 app.listen(3000, () => {
   //Function below drops the existing users table whenever and creates a new one whenever it is called. Uncomment it and then run the server if you want to eset the users table. Be sure to comment it back out whenever you are finished using it.
   // users.sync({ force: true }); rps_scoreboard.sync({ force: true }); tic_tac_toe_scoreboard.sync({ force: true }); global_scoreboard.sync({ force: true })
