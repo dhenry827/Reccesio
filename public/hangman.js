@@ -62,9 +62,9 @@ function guessLetter(letter) {
         displayWordToGuess();
         checkGameResult();
 
-        const letterButton = document.querySelector(`.keyboard-button:contains('${letter}')`);
-        letterButton.disabled = true;
-        letterButton.classList.add('disabled');
+        // const letterButton = document.querySelector(`.keyboard-button:contains('${letter}')`);
+        // letterButton.disabled = true;
+        // letterButton.classList.add('disabled');
     }
 }
 
@@ -77,7 +77,7 @@ function updateHangmanImage() {
     const hangmanPic = document.getElementById('hangmanPic');
 
     if (remainingAttempts > 0 ) {
-        hangmanPic.src = './images/' + mistakes + '.png';
+        hangmanPic.src = '/image' + mistakes + '.png';
     }
     mistakes++; 
 }
