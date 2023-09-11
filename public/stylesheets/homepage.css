@@ -8,3 +8,10 @@
     width: 100%; /* Make the images responsive within the carousel */
     height: auto;
 }
+
+body{margin: 0;
+    padding: 0;
+            background-image: url('/Screen\ Shot\ 2023-09-07\ at\ 2.04.03\ PM.png');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;}
