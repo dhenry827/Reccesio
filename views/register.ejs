@@ -1,11 +1,18 @@
 <head>
-    <!-- <link rel="" href=""> -->
+    
     <title>Recess.io - Register</title>
+    <link rel="stylesheet" href="/stylesheets/register.css">
 </head>
-
+<div class="video-container">
+    <video autoplay muted loop id="video-background">
+        <source src="/register movie .mp4" type="video/mp4">
+        
+    </video>
+    <div class="content">
+<body>
 <div id="main container>">
     <form action="/register" method="post">
-        <fieldset>
+        
             <% if (errorFound) { %>
                 <p class="error-message"><%= errorFound %></p>
             
@@ -52,6 +59,7 @@
                         <input type="submit" value="Create Account"> 
                         <% } %>
             </div>
-        </fieldset>
+      
     </form>
+</body>
 </div>
