@@ -1,0 +1,58 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #88964b;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin-top: 20px;
+    color: #333;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+.word-to-guess {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333;
+}
+
+.keyboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 5px;
+    margin-top: 20px;
+}
+
+.keyboard button {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.keyboard button:hover {
+    background-color: #0056b3;
+}
+
+.game-result {
+    font-size: 24px;
+    margin-top: 20px;
+    color: #333;
+}
+
+img{
+    width:150px
+}
