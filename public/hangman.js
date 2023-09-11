@@ -77,7 +77,7 @@ function updateHangmanImage() {
     const hangmanPic = document.getElementById('hangmanPic');
 
     if (remainingAttempts > 0 ) {
-        hangmanPic.src = '/image' + mistakes + '.png';
+        hangmanPic.src = '/image/' + mistakes + '.png';
     }
     mistakes++; 
 }
