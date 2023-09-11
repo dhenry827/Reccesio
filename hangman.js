@@ -61,8 +61,13 @@ function guessLetter(letter) {
 
         displayWordToGuess();
         checkGameResult();
+
+        const letterButton = document.querySelector(`.keyboard-button:contains('${letter}')`);
+        letterButton.disabled = true;
+        letterButton.classList.add('disabled');
     }
 }
+
 
 let mistakes = 0; 
 
@@ -95,5 +100,6 @@ function checkGameResult() {
         disableKeyboard();
     }
 }
+
 
 startGame();
